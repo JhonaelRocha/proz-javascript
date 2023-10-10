@@ -38,10 +38,13 @@ usernameInput.addEventListener("change", (e)=> {
     // Adicionar estilos dinâmicos se o valor tiver menos de 3 caracteres
     usernameHelper.innerText = "Seu username precisa ter 3 ou mais caracteres";
     estilizarInputIncorreto(usernameInput, usernameHelper)
+    inputsCorretos.username = false;
   } else {
     // Adicionar estilos dinâmicos se o valor estiver correto
     estilizarInputCorreto(usernameInput, usernameHelper);
+    inputsCorretos.username = true;
   }
+  console.log(inputsCorretos)
 })
 
 // ---------- VALIDAÇÃO EMAIL ---------- //
@@ -58,11 +61,14 @@ emailInput.addEventListener("change", (e)=> {
   if(valor.includes("@") && valor.includes(".com")){
     // Adicionar estilos dinâmicos se o valor estiver correto
     estilizarInputCorreto(emailInput, emailHelper);
+    inputsCorretos. email = true;
   } else {
     // Adicionar estilos dinâmicos se o valor tiver menos de 3 caracteres
     emailHelper.innerText = "Precisa inserir um email válido";
     estilizarInputIncorreto(emailInput, emailHelper);
+    inputsCorretos.email = false;
   }
+  console.log(inputsCorretos)
 })
 
 
@@ -79,14 +85,16 @@ senhaInput.addEventListener("blur", (event) => {
     let valorSenhaInput = event.target.value;
     if(valorSenhaInput != ""){
         estilizarInputCorreto(senhaInput,senhaHelper);
+        inputsCorretos.senha = true;
         if(valorSenhaInput == confirmaSenhaInput.value){
             estilizarInputCorreto(confirmaSenhaInput,confirmaSenhaHelper);
         }
     }else{
         senhaHelper.innerText = "A senha não pode ser vazia"
         estilizarInputIncorreto(senhaInput,senhaHelper);
-        
+        inputsCorretos.senha = false;
     }
+    console.log(inputsCorretos)
 })
 
 
@@ -104,11 +112,13 @@ confirmaSenhaInput.addEventListener("blur", (event) => {
 
     if(valorConfirmaSenha == senhaInput.value){
         estilizarInputCorreto(confirmaSenhaInput,confirmaSenhaHelper);
+        inputsCorretos.confimaSenha = true;
     }else{
         confirmaSenhaHelper.innerText = "As senhas precisam ser iguais";
         estilizarInputIncorreto(confirmaSenhaInput,confirmaSenhaHelper);
+        inputsCorretos.confimaSenha = false;
     }
-
+    console.log(inputsCorretos.confimaSenha)
 })
 
 // ----- EVITAR ENVIO DO FORMULÁRIO ----- //
@@ -121,3 +131,16 @@ let inputsCorretos = {
     senha: false,
     confimaSenha: false
 }
+
+
+btnSubmit.addEventListener("click", (event) => {
+    if(inputsCorretos.username == false || 
+        inputsCorretos.email == false || 
+        inputsCorretos.senha == false || 
+        inputsCorretos.confimaSenha == false){
+        event.preventDefault();
+        alert("Os campos do formulário devem ser preenchidos corretamente.")
+    }else{
+        alert("Formulário enviado com sucesso.");
+    }
+})
